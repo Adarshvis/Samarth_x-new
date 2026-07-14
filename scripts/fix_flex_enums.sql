@@ -1,0 +1,91 @@
+-- Fix flex table varchar columns → proper ENUM types
+-- Must drop defaults before ALTER TYPE, then re-add them
+
+-- flex_stats_cards
+ALTER TABLE pages_blocks_flex_stats_cards ALTER COLUMN columns DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_stats_cards ALTER COLUMN columns TYPE enum_pages_blocks_flex_stats_cards_columns USING columns::enum_pages_blocks_flex_stats_cards_columns;
+ALTER TABLE pages_blocks_flex_stats_cards ALTER COLUMN columns SET DEFAULT '4';
+
+ALTER TABLE pages_blocks_flex_stats_cards ALTER COLUMN card_style DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_stats_cards ALTER COLUMN card_style TYPE enum_pages_blocks_flex_stats_cards_card_style USING card_style::enum_pages_blocks_flex_stats_cards_card_style;
+ALTER TABLE pages_blocks_flex_stats_cards ALTER COLUMN card_style SET DEFAULT 'outline';
+
+ALTER TABLE pages_blocks_flex_stats_cards_cards ALTER COLUMN animation DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_stats_cards_cards ALTER COLUMN animation TYPE enum_pages_blocks_flex_stats_cards_cards_animation USING animation::enum_pages_blocks_flex_stats_cards_cards_animation;
+ALTER TABLE pages_blocks_flex_stats_cards_cards ALTER COLUMN animation SET DEFAULT 'none';
+
+-- flex_feature_cards
+ALTER TABLE pages_blocks_flex_feature_cards ALTER COLUMN columns DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_feature_cards ALTER COLUMN columns TYPE enum_pages_blocks_flex_feature_cards_columns USING columns::enum_pages_blocks_flex_feature_cards_columns;
+ALTER TABLE pages_blocks_flex_feature_cards ALTER COLUMN columns SET DEFAULT '3';
+
+ALTER TABLE pages_blocks_flex_feature_cards ALTER COLUMN card_style DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_feature_cards ALTER COLUMN card_style TYPE enum_pages_blocks_flex_feature_cards_card_style USING card_style::enum_pages_blocks_flex_feature_cards_card_style;
+ALTER TABLE pages_blocks_flex_feature_cards ALTER COLUMN card_style SET DEFAULT 'borderTop';
+
+ALTER TABLE pages_blocks_flex_feature_cards_cards ALTER COLUMN animation DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_feature_cards_cards ALTER COLUMN animation TYPE enum_pages_blocks_flex_feature_cards_cards_animation USING animation::enum_pages_blocks_flex_feature_cards_cards_animation;
+ALTER TABLE pages_blocks_flex_feature_cards_cards ALTER COLUMN animation SET DEFAULT 'none';
+
+-- flex_highlight_cards
+ALTER TABLE pages_blocks_flex_highlight_cards ALTER COLUMN columns DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_highlight_cards ALTER COLUMN columns TYPE enum_pages_blocks_flex_highlight_cards_columns USING columns::enum_pages_blocks_flex_highlight_cards_columns;
+ALTER TABLE pages_blocks_flex_highlight_cards ALTER COLUMN columns SET DEFAULT '2';
+
+ALTER TABLE pages_blocks_flex_highlight_cards ALTER COLUMN theme DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_highlight_cards ALTER COLUMN theme TYPE enum_pages_blocks_flex_highlight_cards_theme USING theme::enum_pages_blocks_flex_highlight_cards_theme;
+ALTER TABLE pages_blocks_flex_highlight_cards ALTER COLUMN theme SET DEFAULT 'light';
+
+ALTER TABLE pages_blocks_flex_highlight_cards ALTER COLUMN title_size DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_highlight_cards ALTER COLUMN title_size TYPE enum_pages_blocks_flex_highlight_cards_title_size USING title_size::enum_pages_blocks_flex_highlight_cards_title_size;
+ALTER TABLE pages_blocks_flex_highlight_cards ALTER COLUMN title_size SET DEFAULT 'base';
+
+ALTER TABLE pages_blocks_flex_highlight_cards ALTER COLUMN icon_alignment DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_highlight_cards ALTER COLUMN icon_alignment TYPE enum_pages_blocks_flex_highlight_cards_icon_alignment USING icon_alignment::enum_pages_blocks_flex_highlight_cards_icon_alignment;
+ALTER TABLE pages_blocks_flex_highlight_cards ALTER COLUMN icon_alignment SET DEFAULT 'left';
+
+ALTER TABLE pages_blocks_flex_highlight_cards_cards ALTER COLUMN animation DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_highlight_cards_cards ALTER COLUMN animation TYPE enum_pages_blocks_flex_highlight_cards_cards_animation USING animation::enum_pages_blocks_flex_highlight_cards_cards_animation;
+ALTER TABLE pages_blocks_flex_highlight_cards_cards ALTER COLUMN animation SET DEFAULT 'none';
+
+-- flex_buttons
+ALTER TABLE pages_blocks_flex_buttons ALTER COLUMN alignment DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_buttons ALTER COLUMN alignment TYPE enum_pages_blocks_flex_buttons_alignment USING alignment::enum_pages_blocks_flex_buttons_alignment;
+ALTER TABLE pages_blocks_flex_buttons ALTER COLUMN alignment SET DEFAULT 'left';
+
+ALTER TABLE pages_blocks_flex_buttons_buttons ALTER COLUMN variant DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_buttons_buttons ALTER COLUMN variant TYPE enum_pages_blocks_flex_buttons_buttons_variant USING variant::enum_pages_blocks_flex_buttons_buttons_variant;
+ALTER TABLE pages_blocks_flex_buttons_buttons ALTER COLUMN variant SET DEFAULT 'primary';
+
+ALTER TABLE pages_blocks_flex_buttons_buttons ALTER COLUMN size DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_buttons_buttons ALTER COLUMN size TYPE enum_pages_blocks_flex_buttons_buttons_size USING size::enum_pages_blocks_flex_buttons_buttons_size;
+ALTER TABLE pages_blocks_flex_buttons_buttons ALTER COLUMN size SET DEFAULT 'md';
+
+-- flex_dashboard_mock
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN layout_variant DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN layout_variant TYPE enum_pages_blocks_flex_dashboard_mock_layout_variant USING layout_variant::enum_pages_blocks_flex_dashboard_mock_layout_variant;
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN layout_variant SET DEFAULT 'floatingCards';
+
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN theme DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN theme TYPE enum_pages_blocks_flex_dashboard_mock_theme USING theme::enum_pages_blocks_flex_dashboard_mock_theme;
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN theme SET DEFAULT 'light';
+
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN top_badge_label_size DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN top_badge_label_size TYPE enum_pages_blocks_flex_dashboard_mock_top_badge_label_size USING top_badge_label_size::enum_pages_blocks_flex_dashboard_mock_top_badge_label_size;
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN top_badge_label_size SET DEFAULT 'md';
+
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN top_badge_animation DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN top_badge_animation TYPE enum_pages_blocks_flex_dashboard_mock_top_badge_animation USING top_badge_animation::enum_pages_blocks_flex_dashboard_mock_top_badge_animation;
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN top_badge_animation SET DEFAULT 'float';
+
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN top_badge_value_size DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN top_badge_value_size TYPE enum_pages_blocks_flex_dashboard_mock_top_badge_value_size USING top_badge_value_size::enum_pages_blocks_flex_dashboard_mock_top_badge_value_size;
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN top_badge_value_size SET DEFAULT '2xl';
+
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN bottom_badge_animation DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN bottom_badge_animation TYPE enum_pages_blocks_flex_dashboard_mock_bottom_badge_animation USING bottom_badge_animation::enum_pages_blocks_flex_dashboard_mock_bottom_badge_animation;
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN bottom_badge_animation SET DEFAULT 'none';
+
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN bottom_summary_size DROP DEFAULT;
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN bottom_summary_size TYPE enum_pages_blocks_flex_dashboard_mock_bottom_summary_size USING bottom_summary_size::enum_pages_blocks_flex_dashboard_mock_bottom_summary_size;
+ALTER TABLE pages_blocks_flex_dashboard_mock ALTER COLUMN bottom_summary_size SET DEFAULT 'lg';
