@@ -14,6 +14,9 @@ import * as migration_20260416_010000_add_analytics_dashboard from './20260416_0
 import * as migration_20260423_070302_add_career_posting_fields from './20260423_070302_add_career_posting_fields';
 import * as migration_20260714_010000_add_connected_hero from './20260714_010000_add_connected_hero';
 import * as migration_20260714_020000_connected_hero_light from './20260714_020000_connected_hero_light';
+import * as migration_20260714_030000_add_statistics_impact_spotlight from './20260714_030000_add_statistics_impact_spotlight';
+import * as migration_20260714_040000_add_statistics_leaflet from './20260714_040000_add_statistics_leaflet';
+import * as migration_20260714_050000_add_feature_cards_role_layout from './20260714_050000_add_feature_cards_role_layout';
 
 export const migrations = [
   {
@@ -95,5 +98,20 @@ export const migrations = [
     up: migration_20260714_020000_connected_hero_light.up,
     down: migration_20260714_020000_connected_hero_light.down,
     name: '20260714_020000_connected_hero_light',
+  },
+  {
+    up: migration_20260714_030000_add_statistics_impact_spotlight.up,
+    down: migration_20260714_030000_add_statistics_impact_spotlight.down,
+    name: '20260714_030000_add_statistics_impact_spotlight',
+  },
+  {
+    up: migration_20260714_040000_add_statistics_leaflet.up,
+    down: migration_20260714_040000_add_statistics_leaflet.down,
+    name: '20260714_040000_add_statistics_leaflet',
+  },
+  {
+    up: migration_20260714_050000_add_feature_cards_role_layout.up,
+    down: migration_20260714_050000_add_feature_cards_role_layout.down,
+    name: '20260714_050000_add_feature_cards_role_layout',
   },
 ];

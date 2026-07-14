@@ -6,6 +6,9 @@ import SectionHeading from '../ui/SectionHeading'
 import ScrollReveal from '../ui/ScrollReveal'
 import { useInView } from '../ui/useInView'
 import { useCountUp } from '../ui/useCountUp'
+import dynamic from 'next/dynamic'
+
+const SpotlightLeafletMap = dynamic(() => import('./SpotlightLeafletMap'), { ssr: false })
 
 interface StatData {
   label: string
@@ -25,7 +28,7 @@ interface StatisticsBlockProps {
   sectionHeading?: string | null
   sectionDescription?: string | null
   headingAlignment?: 'left' | 'center' | 'right' | null
-  layout?: 'cardGrid' | 'circularRings' | 'interlockingRings' | null
+  layout?: 'cardGrid' | 'circularRings' | 'interlockingRings' | 'impactSpotlight' | null
   stats: StatData[]
   backgroundColor?: string | null
   cardBgColor?: string | null
@@ -35,6 +38,36 @@ interface StatisticsBlockProps {
   enableCountUp?: boolean | null
   enableHoverZoom?: boolean | null
   columns?: '2' | '3' | '4' | null
+  // Impact + Spotlight layout
+  eyebrow?: string | null
+  accentColor?: string | null
+  textColor?: string | null
+  spotlight?: {
+    enabled?: boolean | null
+    eyebrow?: string | null
+    heading?: string | null
+    description?: string | null
+    buttonLabel?: string | null
+    buttonUrl?: string | null
+    mapSource?: 'image' | 'leaflet' | null
+    map?: { url?: string | null; alt?: string | null } | number | null
+    mapLat?: number | null
+    mapLng?: number | null
+    mapZoom?: number | null
+    markerLabel?: string | null
+    markerSublabel?: string | null
+  } | null
+}
+
+function hexToRgba(hex: string, alpha: number): string {
+  const clean = (hex || '').replace('#', '')
+  const full = clean.length === 3 ? clean.split('').map((c) => c + c).join('') : clean
+  const num = parseInt(full, 16)
+  if (Number.isNaN(num)) return hex
+  const r = (num >> 16) & 255
+  const g = (num >> 8) & 255
+  const b = num & 255
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }
 
 const columnClasses: Record<string, string> = {
@@ -412,6 +445,177 @@ function InterlockingRingsLayout({
   )
 }
 
+// ── Impact + Spotlight (dark band + map) ──
+function ImpactSpotlightLayout({
+  eyebrow,
+  heading,
+  description,
+  stats,
+  animate,
+  accent,
+  text,
+  spotlight,
+}: {
+  eyebrow?: string | null
+  heading?: string | null
+  description?: string | null
+  stats: StatData[]
+  animate: boolean
+  accent: string
+  text: string
+  spotlight?: StatisticsBlockProps['spotlight']
+}) {
+  const muted = hexToRgba(text, 0.6)
+  const border = hexToRgba(text, 0.12)
+  const spotMap =
+    spotlight?.map && typeof spotlight.map === 'object' && spotlight.map.url ? spotlight.map : null
+
+  return (
+    <div className="max-w-7xl mx-auto px-6">
+      {/* ── Header: heading left, description right ── */}
+      <div className="grid lg:grid-cols-2 gap-6 lg:gap-10 items-end">
+        <div>
+          {eyebrow && (
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] mb-4" style={{ color: accent }}>
+              {eyebrow}
+            </p>
+          )}
+          {heading && (
+            <h2
+              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-[1.08] tracking-tight"
+              style={{ color: text }}
+            >
+              {heading}
+            </h2>
+          )}
+        </div>
+        {description && (
+          <p className="text-sm sm:text-base leading-relaxed lg:pb-2" style={{ color: muted }}>
+            {description}
+          </p>
+        )}
+      </div>
+
+      {/* ── Stat band ── */}
+      {stats && stats.length > 0 && (
+        <div
+          className="mt-10 grid grid-cols-2 md:grid-cols-4"
+          style={{ borderTop: `1px solid ${border}`, borderBottom: `1px solid ${border}` }}
+        >
+          {stats.map((stat, i) => (
+            <div
+              key={stat.id || i}
+              className="py-7 px-5"
+              style={{ borderLeft: i % (stats.length >= 4 ? 4 : 2) === 0 ? 'none' : `1px solid ${border}` }}
+            >
+              <div className="text-3xl sm:text-4xl font-bold" style={{ color: text }}>
+                <AnimatedNumber
+                  value={stat.numericValue}
+                  prefix={stat.prefix}
+                  suffix={stat.suffix}
+                  animate={animate}
+                />
+              </div>
+              <div className="mt-2 text-xs sm:text-sm" style={{ color: muted }}>
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* ── Spotlight card ── */}
+      {spotlight?.enabled !== false &&
+        (spotlight?.heading || spotlight?.description || spotMap) && (
+          <div
+            className="mt-12 rounded-3xl overflow-hidden relative grid lg:grid-cols-2 gap-8 p-8 sm:p-10"
+            style={{ backgroundColor: hexToRgba(text, 0.05), border: `1px solid ${border}` }}
+          >
+            {/* Left: copy */}
+            <div className="relative z-10">
+              {spotlight?.eyebrow && (
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] mb-4" style={{ color: accent }}>
+                  {spotlight.eyebrow}
+                </p>
+              )}
+              {spotlight?.heading && (
+                <h3 className="text-2xl sm:text-3xl font-bold leading-snug" style={{ color: text }}>
+                  {spotlight.heading}
+                </h3>
+              )}
+              {spotlight?.description && (
+                <p className="mt-4 text-sm sm:text-base leading-relaxed max-w-md" style={{ color: muted }}>
+                  {spotlight.description}
+                </p>
+              )}
+              {spotlight?.buttonLabel && (
+                <a
+                  href={spotlight.buttonUrl || '#'}
+                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+                  style={{ color: '#0F172A' }}
+                >
+                  {spotlight.buttonLabel}
+                  <DynamicIcon name="ArrowRight" size={16} />
+                </a>
+              )}
+            </div>
+
+            {/* Right: map + marker */}
+            <div className="relative isolate z-0 min-h-[300px] h-[300px]">
+              {spotlight?.mapSource === 'leaflet' ? (
+                <SpotlightLeafletMap
+                  lat={typeof spotlight?.mapLat === 'number' ? spotlight.mapLat : 15.2993}
+                  lng={typeof spotlight?.mapLng === 'number' ? spotlight.mapLng : 74.124}
+                  zoom={typeof spotlight?.mapZoom === 'number' ? spotlight.mapZoom : 8}
+                  markerLabel={spotlight?.markerLabel}
+                  markerSublabel={spotlight?.markerSublabel}
+                  accent={accent}
+                />
+              ) : (
+                <>
+                  {spotMap?.url && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={spotMap.url}
+                      alt={spotMap.alt || spotlight?.markerLabel || 'Map'}
+                      className="absolute inset-0 w-full h-full object-contain opacity-70"
+                    />
+                  )}
+                  {(spotlight?.markerLabel || spotlight?.markerSublabel) && (
+                    <div className="absolute left-[18%] top-1/2 -translate-y-1/2 z-10 flex items-center gap-3">
+                      <div className="rounded-xl bg-white shadow-xl px-4 py-2.5">
+                        {spotlight?.markerLabel && (
+                          <p className="text-base font-bold leading-tight" style={{ color: '#0F172A' }}>
+                            {spotlight.markerLabel}
+                          </p>
+                        )}
+                        {spotlight?.markerSublabel && (
+                          <p className="text-xs" style={{ color: '#64748B' }}>
+                            {spotlight.markerSublabel}
+                          </p>
+                        )}
+                      </div>
+                      <span className="relative flex h-4 w-4">
+                        <span
+                          className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60"
+                          style={{ backgroundColor: accent }}
+                        />
+                        <span
+                          className="relative inline-flex rounded-full h-4 w-4 border-2 border-white"
+                          style={{ backgroundColor: '#F59E0B' }}
+                        />
+                      </span>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        )}
+    </div>
+  )
+}
+
 // ── Main Block ──
 export default function StatisticsBlock(props: StatisticsBlockProps) {
   const {
@@ -428,6 +632,10 @@ export default function StatisticsBlock(props: StatisticsBlockProps) {
     enableCountUp = true,
     enableHoverZoom = true,
     columns = '4',
+    eyebrow,
+    accentColor = '#7AA5FF',
+    textColor = '#FFFFFF',
+    spotlight,
   } = props
 
   const { ref, inView } = useInView(0.15)
@@ -438,6 +646,26 @@ export default function StatisticsBlock(props: StatisticsBlockProps) {
   const cols = columns || '4'
   const animate = enableCountUp !== false && inView
   const hoverZoom = enableHoverZoom !== false
+
+  // ── Impact + Spotlight: dark band, custom layout ──
+  if (style === 'impactSpotlight') {
+    const rawBg = backgroundColor || ''
+    const bandBg = rawBg && rawBg.toUpperCase() !== '#FFFFFF' ? rawBg : '#0B2A6B'
+    return (
+      <section ref={ref} className="py-16 md:py-20 px-6" style={{ backgroundColor: bandBg }}>
+        <ImpactSpotlightLayout
+          eyebrow={eyebrow}
+          heading={sectionHeading}
+          description={sectionDescription}
+          stats={stats}
+          animate={animate}
+          accent={accentColor || '#7AA5FF'}
+          text={textColor || '#FFFFFF'}
+          spotlight={spotlight}
+        />
+      </section>
+    )
+  }
 
   return (
     <section

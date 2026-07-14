@@ -15,9 +15,18 @@ export const FeatureCards: Block = {
         { label: 'Minimal', value: 'minimal' },
         { label: 'Split', value: 'split' },
         { label: 'Accent Top', value: 'accentTop' },
+        { label: 'Role Cards (icon badge + link)', value: 'roleCards' },
       ],
       admin: {
         description: 'Choose how cards should be displayed.',
+      },
+    },
+    {
+      name: 'eyebrow',
+      type: 'text',
+      admin: {
+        description: 'Small uppercase label above the heading (Role Cards layout)',
+        condition: (_, sibling) => sibling?.cardLayout === 'roleCards',
       },
     },
     {
@@ -54,6 +63,14 @@ export const FeatureCards: Block = {
           type: 'text',
           admin: {
             description: 'Optional URL this card links to',
+          },
+        },
+        {
+          name: 'linkLabel',
+          type: 'text',
+          defaultValue: 'Discover more',
+          admin: {
+            description: 'Link text shown on the card (Role Cards layout, e.g. "Discover more")',
           },
         },
       ],

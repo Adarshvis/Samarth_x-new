@@ -7,13 +7,15 @@ interface FeatureCardsBlockProps {
   sectionHeading?: string | null
   sectionDescription?: string | null
   headingAlignment?: 'left' | 'center' | 'right' | null
-  cardLayout?: 'classic' | 'minimal' | 'split' | 'accentTop' | null
+  cardLayout?: 'classic' | 'minimal' | 'split' | 'accentTop' | 'roleCards' | null
   columns?: '2' | '3' | '4' | null
+  eyebrow?: string | null
   cards: {
     icon?: string | null
     title?: any
     description?: any
     link?: string | null
+    linkLabel?: string | null
     id?: string | null
   }[]
 }
@@ -52,12 +54,73 @@ export default function FeatureCardsBlock({
   headingAlignment,
   cardLayout = 'classic',
   columns = '3',
+  eyebrow,
   cards,
 }: FeatureCardsBlockProps) {
   const cols = columns || '3'
   const layout = cardLayout || 'classic'
 
   if (!cards || cards.length === 0) return null
+
+  // ── Role Cards layout (icon badge + title + description + link) ──
+  if (layout === 'roleCards') {
+    const ArrowRight = (LucideIcons as any).ArrowRight
+    return (
+      <section className="py-16 md:py-20 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          {eyebrow && (
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700 mb-4">{eyebrow}</p>
+          )}
+          {sectionHeading && (
+            <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.08] text-slate-900 max-w-3xl">
+              {sectionHeading}
+            </h2>
+          )}
+          {sectionDescription && (
+            <p className="mt-4 text-base sm:text-lg text-slate-500 max-w-2xl">{sectionDescription}</p>
+          )}
+
+          <div className={`mt-12 grid gap-6 ${gridClasses[cols]}`}>
+            {cards.map((card, index) => {
+              const key = card.id || `role-card-${index}`
+              const iconNode = card.icon ? getIcon(card.icon) : null
+              return (
+                <div
+                  key={key}
+                  className="rounded-2xl bg-white p-6 border border-gray-100 shadow-[0_16px_40px_-24px_rgba(15,23,42,0.35)] hover:shadow-lg transition-all duration-300 flex flex-col"
+                >
+                  {iconNode && (
+                    <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 mb-6">
+                      {card.icon ? React.createElement((LucideIcons as any)[card.icon], { size: 22 }) : null}
+                    </div>
+                  )}
+                  {card.title ? (
+                    <div className="text-slate-900 font-bold text-lg [&_p]:my-0 [&_p]:font-bold [&_p]:leading-snug mb-2">
+                      <RichText data={card.title} />
+                    </div>
+                  ) : null}
+                  {card.description ? (
+                    <div className="text-slate-500 text-sm [&_p]:my-0 [&_p]:leading-relaxed">
+                      <RichText data={card.description} />
+                    </div>
+                  ) : null}
+                  {card.link && (
+                    <a
+                      href={card.link}
+                      className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-700 no-underline hover:gap-2.5 transition-all"
+                    >
+                      {card.linkLabel || 'Discover more'}
+                      {ArrowRight ? <ArrowRight size={15} /> : '→'}
+                    </a>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section className="py-16 px-6">

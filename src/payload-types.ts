@@ -643,7 +643,7 @@ export interface Page {
         /**
          * Choose between card grid layout or circular ring/donut layout
          */
-        layout: 'cardGrid' | 'circularRings' | 'interlockingRings';
+        layout: 'cardGrid' | 'circularRings' | 'interlockingRings' | 'impactSpotlight';
         stats: {
           /**
            * e.g. "Students Enrolled", "Schools", "Pass Rate"
@@ -716,6 +716,51 @@ export interface Page {
          */
         enableHoverZoom?: boolean | null;
         columns?: ('2' | '3' | '4') | null;
+        /**
+         * Small uppercase label above the heading (Impact + Spotlight layout)
+         */
+        eyebrow?: string | null;
+        /**
+         * Accent color for labels, numbers and the map marker
+         */
+        accentColor?: string | null;
+        /**
+         * Main text color on the dark band
+         */
+        textColor?: string | null;
+        /**
+         * Optional highlighted state/story card shown below the stats
+         */
+        spotlight?: {
+          enabled?: boolean | null;
+          eyebrow?: string | null;
+          heading?: string | null;
+          description?: string | null;
+          buttonLabel?: string | null;
+          buttonUrl?: string | null;
+          /**
+           * Choose a static uploaded map or an interactive Leaflet map
+           */
+          mapSource?: ('image' | 'leaflet') | null;
+          /**
+           * Upload the state map (SVG or PNG) shown faintly on the right
+           */
+          map?: (number | null) | Media;
+          /**
+           * Latitude for the Leaflet map center / marker (e.g. Goa = 15.2993)
+           */
+          mapLat?: number | null;
+          /**
+           * Longitude for the Leaflet map center / marker (e.g. Goa = 74.1240)
+           */
+          mapLng?: number | null;
+          /**
+           * Leaflet zoom level (1–18)
+           */
+          mapZoom?: number | null;
+          markerLabel?: string | null;
+          markerSublabel?: string | null;
+        };
         id?: string | null;
         blockName?: string | null;
         blockType: 'statistics';
@@ -1036,7 +1081,11 @@ export interface Page {
         /**
          * Choose how cards should be displayed.
          */
-        cardLayout?: ('classic' | 'minimal' | 'split' | 'accentTop') | null;
+        cardLayout?: ('classic' | 'minimal' | 'split' | 'accentTop' | 'roleCards') | null;
+        /**
+         * Small uppercase label above the heading (Role Cards layout)
+         */
+        eyebrow?: string | null;
         columns?: ('2' | '3' | '4') | null;
         cards?:
           | {
@@ -1084,6 +1133,10 @@ export interface Page {
                * Optional URL this card links to
                */
               link?: string | null;
+              /**
+               * Link text shown on the card (Role Cards layout, e.g. "Discover more")
+               */
+              linkLabel?: string | null;
               id?: string | null;
             }[]
           | null;
@@ -2589,6 +2642,26 @@ export interface PagesSelect<T extends boolean = true> {
               enableCountUp?: T;
               enableHoverZoom?: T;
               columns?: T;
+              eyebrow?: T;
+              accentColor?: T;
+              textColor?: T;
+              spotlight?:
+                | T
+                | {
+                    enabled?: T;
+                    eyebrow?: T;
+                    heading?: T;
+                    description?: T;
+                    buttonLabel?: T;
+                    buttonUrl?: T;
+                    mapSource?: T;
+                    map?: T;
+                    mapLat?: T;
+                    mapLng?: T;
+                    mapZoom?: T;
+                    markerLabel?: T;
+                    markerSublabel?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -2741,6 +2814,7 @@ export interface PagesSelect<T extends boolean = true> {
               sectionDescription?: T;
               headingAlignment?: T;
               cardLayout?: T;
+              eyebrow?: T;
               columns?: T;
               cards?:
                 | T
@@ -2749,6 +2823,7 @@ export interface PagesSelect<T extends boolean = true> {
                     title?: T;
                     description?: T;
                     link?: T;
+                    linkLabel?: T;
                     id?: T;
                   };
               id?: T;
