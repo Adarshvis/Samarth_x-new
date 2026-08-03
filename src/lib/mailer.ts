@@ -2,17 +2,17 @@ import nodemailer from 'nodemailer'
 
 function createTransporter() {
   return nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.netcorecloud.net',
-    port: Number(process.env.SMTP_PORT) || 587,
-    secure: Number(process.env.SMTP_PORT) === 465,
+    host: process.env.SAMARTHX_MAIN_SMTP_HOST || 'smtp.netcorecloud.net',
+    port: Number(process.env.SAMARTHX_MAIN_SMTP_PORT) || 587,
+    secure: Number(process.env.SAMARTHX_MAIN_SMTP_PORT) === 465,
     auth: {
-      user: process.env.SMTP_USERNAME || '',
-      pass: process.env.SMTP_PASSWORD || '',
+      user: process.env.SAMARTHX_MAIN_SMTP_USERNAME || '',
+      pass: process.env.SAMARTHX_MAIN_SMTP_PASSWORD || '',
     },
   })
 }
 
-const senderEmail = process.env.SMTP_SENDER_EMAIL || 'cps@uod.ac.in'
+const senderEmail = process.env.SAMARTHX_MAIN_SMTP_SENDER_EMAIL || 'cps@uod.ac.in'
 const FROM = `SamarthX <${senderEmail}>`
 
 export async function sendOtpEmail(to: string, otp: string): Promise<void> {

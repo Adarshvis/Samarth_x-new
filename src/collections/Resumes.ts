@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { adminAccess } from '../access/roles'
 
-const resumesUploadDir = process.env.CMS_RESUMES_UPLOAD_DIR || 'resumes'
+const resumesUploadDir = process.env.SAMARTHX_MAIN_CMS_RESUMES_UPLOAD_DIR || 'resumes'
 
 export const Resumes: CollectionConfig = {
   slug: 'resumes',

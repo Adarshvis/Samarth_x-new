@@ -30,7 +30,9 @@ export async function POST(req: NextRequest) {
       [token, expiry.toISOString(), result.rows[0].id],
     )
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3999'
+    const appUrl =
+      process.env.NEXT_PUBLIC_SAMARTHX_MAIN_APP_URL ||
+      `http://localhost:${process.env.SAMARTHX_MAIN_PORT || 3699}`
     const resetUrl = `${appUrl}/applicant/reset-password?token=${token}`
 
     await sendResetEmail(email, resetUrl)

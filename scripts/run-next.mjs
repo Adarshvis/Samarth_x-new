@@ -17,7 +17,7 @@ if (!['dev', 'start'].includes(mode)) {
   process.exit(1)
 }
 
-const port = process.env.PORT || '3000'
+const port = process.env.SAMARTHX_MAIN_PORT || process.env.PORT || '3000'
 const extraArgs = process.argv.slice(3)
 
 const child = spawn('next', [mode, '-p', port, ...extraArgs], {

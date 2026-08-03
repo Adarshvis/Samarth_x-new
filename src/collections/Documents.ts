@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { editorAccess, schoolAdminAccess, publicAccess } from '../access/roles'
 
-const documentsUploadDir = process.env.CMS_DOCUMENTS_UPLOAD_DIR || 'documents'
+const documentsUploadDir = process.env.SAMARTHX_MAIN_CMS_DOCUMENTS_UPLOAD_DIR || 'documents'
 
 export const Documents: CollectionConfig = {
   slug: 'documents',

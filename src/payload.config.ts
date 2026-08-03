@@ -25,7 +25,7 @@ import { Footer } from './globals/Footer'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
-const databaseUrl = process.env.CMS_DATABASE_URL || ''
+const databaseUrl = process.env.SAMARTHX_MAIN_CMS_DATABASE_URL || ''
 
 function maskDatabaseUrl(value: string): string {
   if (!value) return '<empty>'
@@ -45,7 +45,7 @@ function maskDatabaseUrl(value: string): string {
 export default buildConfig({
   onInit: async (payload) => {
     payload.logger.info('[DB] Payload initialized')
-    payload.logger.info(`[DB] CMS_DATABASE_URL=${maskDatabaseUrl(databaseUrl)}`)
+    payload.logger.info(`[DB] SAMARTHX_MAIN_CMS_DATABASE_URL=${maskDatabaseUrl(databaseUrl)}`)
   },
   admin: {
     user: Users.slug,
@@ -78,7 +78,7 @@ export default buildConfig({
       EXPERIMENTAL_TableFeature(),
     ],
   }),
-  secret: process.env.PAYLOAD_SECRET || '',
+  secret: process.env.SAMARTHX_MAIN_PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },

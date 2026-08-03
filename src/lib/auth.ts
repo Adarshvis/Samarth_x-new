@@ -3,9 +3,9 @@ import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
 function getSecret(): Uint8Array {
-  const value = process.env.JWT_SECRET
+  const value = process.env.SAMARTHX_MAIN_JWT_SECRET
   if (!value) {
-    throw new Error('JWT_SECRET environment variable is not set')
+    throw new Error('SAMARTHX_MAIN_JWT_SECRET environment variable is not set')
   }
   return new TextEncoder().encode(value)
 }

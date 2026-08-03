@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const SUPERSET_BASE_URL = (process.env.SUPERSET_BASE_URL || '').replace(/\/+$/, '')
-const SUPERSET_USERNAME = process.env.SUPERSET_USERNAME || ''
-const SUPERSET_PASSWORD = process.env.SUPERSET_PASSWORD || ''
-const SUPERSET_PROVIDER = process.env.SUPERSET_PROVIDER || 'db'
+const SUPERSET_BASE_URL = (process.env.SAMARTHX_MAIN_SUPERSET_BASE_URL || '').replace(/\/+$/, '')
+const SUPERSET_USERNAME = process.env.SAMARTHX_MAIN_SUPERSET_USERNAME || ''
+const SUPERSET_PASSWORD = process.env.SAMARTHX_MAIN_SUPERSET_PASSWORD || ''
+const SUPERSET_PROVIDER = process.env.SAMARTHX_MAIN_SUPERSET_PROVIDER || 'db'
 
 interface TokenCache {
   accessToken: string

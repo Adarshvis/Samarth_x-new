@@ -158,7 +158,8 @@ export const JobApplications: CollectionConfig = {
               if (!resume?.url) return null
               
               // Prepend the base URL to make it an absolute URL
-              const baseUrl = process.env.NEXT_PUBLIC_APP_URL || req.headers.get('origin') || ''
+              const baseUrl =
+                process.env.NEXT_PUBLIC_SAMARTHX_MAIN_APP_URL || req.headers.get('origin') || ''
               return `${baseUrl}${resume.url}`
             } catch (err) {
               req.payload.logger.error(`Failed to fetch resume URL for application ${data?.id}: ${String(err)}`)

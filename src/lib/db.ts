@@ -4,7 +4,7 @@ const { Pool } = pg
 
 // Parse the connection URL manually to avoid issues with special characters (e.g. @ in password)
 function getPoolConfig(): pg.PoolConfig {
-  const url = process.env.CMS_DATABASE_URL || ''
+  const url = process.env.SAMARTHX_MAIN_CMS_DATABASE_URL || ''
   try {
     const parsed = new URL(url)
     return {

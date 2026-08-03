@@ -49,7 +49,7 @@ export default function AnalyticsDashboardBlock(props: AnalyticsDashboardBlockPr
   const embedViewportRef = useRef<HTMLDivElement>(null)
   const mountedRef = useRef(false)
 
-  const supersetDomain = process.env.NEXT_PUBLIC_SUPERSET_URL || ''
+  const supersetDomain = process.env.NEXT_PUBLIC_SAMARTHX_MAIN_SUPERSET_URL || ''
 
   const fetchGuestToken = useCallback(async (embedUuid: string): Promise<string> => {
     const res = await fetch('/api/analytics', {

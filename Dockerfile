@@ -64,7 +64,10 @@ USER nextjs
 
 EXPOSE 3699
 
+# `node server.js` (standalone output) reads the literal PORT variable,
+# so set both: PORT for the server and SAMARTHX_MAIN_PORT for app scripts.
 ENV PORT 3699
+ENV SAMARTHX_MAIN_PORT 3699
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
