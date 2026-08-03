@@ -2,9 +2,13 @@ import { SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
-const secret = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'fallback-secret-do-not-use-in-production',
-)
+function getSecret(): Uint8Array {
+  const value = process.env.JWT_SECRET
+  if (!value) {
+    throw new Error('JWT_SECRET environment variable is not set')
+  }
+  return new TextEncoder().encode(value)
+}
 
 const COOKIE_NAME = 'applicant_token'
 const EXPIRY_SECONDS = 7 * 24 * 60 * 60 // 7 days
@@ -20,12 +24,12 @@ export async function signToken(payload: ApplicantPayload): Promise<string> {
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
     .setExpirationTime(`${EXPIRY_SECONDS}s`)
-    .sign(secret)
+    .sign(getSecret())
 }
 
 export async function verifyToken(token: string): Promise<ApplicantPayload | null> {
   try {
-    const { payload } = await jwtVerify(token, secret)
+    const { payload } = await jwtVerify(token, getSecret())
     return payload as unknown as ApplicantPayload
   } catch {
     return null

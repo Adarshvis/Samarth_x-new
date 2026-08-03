@@ -20,10 +20,6 @@ async function syncNavToHeader(payload: any) {
   const allPageIds = new Set(allPages.docs.map((p: any) => p.id))
   const allPageUrls = new Set(allPages.docs.map((p: any) => p.slug === 'home' ? '/' : `/${p.slug}`))
 
-  // 3. Filter out existing nav items that belong to pages (we will rebuild them). 
-  // This leaves behind completely manual/external links so they don't get deleted!
-  const manualNavItems = existingNav.filter((item: any) => !allPageUrls.has(item.url))
-
   const sanitizeChildren = (children: any[] | null | undefined) => {
     if (!Array.isArray(children)) return []
     return children.filter((child) => {
@@ -76,26 +72,53 @@ async function syncNavToHeader(payload: any) {
   const nextHiddenUrls = [...hiddenPageUrls].filter((url) => activePageUrls.has(url))
   const nextHiddenSet = new Set(nextHiddenUrls)
 
-  // 5. Build the new page links, but PRESERVE their existing `children` submenus
-  const pageNavItems = activePages.docs.map((page: any) => {
-    const url = page.slug === 'home' ? '/' : `/${page.slug}`
-    const previousItem = existingNav.find((item: any) => item.url === url)
-    return {
+  // 5. Rebuild nav while PRESERVING the existing manual order.
+  //    - Manual/external links stay exactly where the admin placed them.
+  //    - Page links keep their current position; only their label/submenus refresh.
+  //    - Pages no longer eligible are dropped; newly eligible pages are appended (by navOrder).
+  const eligiblePageItems = activePages.docs
+    .map((page: any) => ({
       label: page.title,
-      url: url,
-      children: sanitizeChildren(previousItem?.children), // Keep valid submenus only.
-    }
-  }).filter((item: any) => !nextHiddenSet.has(item.url))
+      url: page.slug === 'home' ? '/' : `/${page.slug}`,
+    }))
+    .filter((item: any) => !nextHiddenSet.has(item.url))
 
-  // Combine them: Page links first (sorted by navOrder), then any manual links at the end
-  const navItems = [...pageNavItems, ...manualNavItems]
+  const eligibleByUrl = new Map<string, any>(eligiblePageItems.map((p: any) => [p.url, p]))
+  const placedPageUrls = new Set<string>()
+  const navItems: any[] = []
+
+  // Preserve current order for everything already in the nav.
+  for (const item of existingNav) {
+    if (!allPageUrls.has(item.url)) {
+      // Manual / external link — keep exactly where it is.
+      navItems.push(item)
+      continue
+    }
+    // Page-derived link — keep it (in place) only if the page is still eligible.
+    const match = eligibleByUrl.get(item.url)
+    if (match) {
+      navItems.push({
+        label: match.label,
+        url: item.url,
+        children: sanitizeChildren(item.children),
+      })
+      placedPageUrls.add(item.url)
+    }
+  }
+
+  // Append newly eligible pages that aren't already in the nav (in navOrder sequence).
+  for (const item of eligiblePageItems) {
+    if (!placedPageUrls.has(item.url)) {
+      navItems.push({ label: item.label, url: item.url, children: [] })
+    }
+  }
 
   await payload.updateGlobal({
     slug: 'header',
     data: {
       navItems,
       navSyncHiddenPageUrls: nextHiddenUrls.map((url) => ({ url })),
-      navSyncLastSyncedPageUrls: pageNavItems.map((item: any) => ({ url: item.url })),
+      navSyncLastSyncedPageUrls: eligiblePageItems.map((item: any) => ({ url: item.url })),
     },
     overrideAccess: true,
   })
