@@ -14,6 +14,7 @@ import sharp from 'sharp'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Documents } from './collections/Documents'
 import { Pages } from './collections/Pages'
 import { News } from './collections/News'
 import { Resumes } from './collections/Resumes'
@@ -55,7 +56,7 @@ export default buildConfig({
       afterDashboard: ['@/components/admin/ApplicationsDashboardCard#default'],
     },
   },
-  collections: [Users, Media, Pages, News, Resumes, JobApplications],
+  collections: [Users, Media, Documents, Pages, News, Resumes, JobApplications],
   globals: [SiteSettings, Header, Footer],
   editor: lexicalEditor({
     features: ({ defaultFeatures }) => [

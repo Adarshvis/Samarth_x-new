@@ -23,6 +23,7 @@ import { HelpSupport } from '../blocks/HelpSupport'
 import { FlexibleRow } from '../blocks/FlexibleRow'
 import { CareerPosting } from '../blocks/CareerPosting'
 import { ConnectedHero } from '../blocks/ConnectedHero'
+import { DocumentList } from '../blocks/DocumentList'
 import { StatesOnboarded } from '../blocks/StatesOnboarded'
 import { FormLayout } from '../blocks/FormLayout'
 import { AnalyticsDashboard } from '../blocks/AnalyticsDashboard'
@@ -177,6 +178,7 @@ export const Pages: CollectionConfig = {
         FlexibleRow,
         CareerPosting,
         AnalyticsDashboard,
+        DocumentList,
       ],
     },
   ],

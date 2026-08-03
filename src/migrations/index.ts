@@ -17,6 +17,7 @@ import * as migration_20260714_020000_connected_hero_light from './20260714_0200
 import * as migration_20260714_030000_add_statistics_impact_spotlight from './20260714_030000_add_statistics_impact_spotlight';
 import * as migration_20260714_040000_add_statistics_leaflet from './20260714_040000_add_statistics_leaflet';
 import * as migration_20260714_050000_add_feature_cards_role_layout from './20260714_050000_add_feature_cards_role_layout';
+import * as migration_20260714_060000_add_documents_and_document_list from './20260714_060000_add_documents_and_document_list';
 
 export const migrations = [
   {
@@ -113,5 +114,10 @@ export const migrations = [
     up: migration_20260714_050000_add_feature_cards_role_layout.up,
     down: migration_20260714_050000_add_feature_cards_role_layout.down,
     name: '20260714_050000_add_feature_cards_role_layout',
+  },
+  {
+    up: migration_20260714_060000_add_documents_and_document_list.up,
+    down: migration_20260714_060000_add_documents_and_document_list.down,
+    name: '20260714_060000_add_documents_and_document_list',
   },
 ];

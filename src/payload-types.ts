@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    documents: Document;
     pages: Page;
     news: News;
     resumes: Resume;
@@ -84,6 +85,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    documents: DocumentsSelect<false> | DocumentsSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     news: NewsSelect<false> | NewsSelect<true>;
     resumes: ResumesSelect<false> | ResumesSelect<true>;
@@ -169,6 +171,30 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * PDF / Word documents (notices, circulars, forms) uploaded by admins
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents".
+ */
+export interface Document {
+  id: number;
+  /**
+   * Optional label for this file in the admin list (defaults to the filename)
+   */
+  title?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -1906,6 +1932,69 @@ export interface Page {
         blockName?: string | null;
         blockType: 'analyticsDashboard';
       }
+    | {
+        /**
+         * Section heading displayed above this block
+         */
+        sectionHeading?: string | null;
+        /**
+         * Optional description below the heading
+         */
+        sectionDescription?: string | null;
+        headingAlignment?: ('left' | 'center' | 'right') | null;
+        /**
+         * Each row shows a document with inline View and Download actions
+         */
+        documents: {
+          /**
+           * e.g. "Ph.D Fee Bifurcation 2024-25"
+           */
+          title: string;
+          /**
+           * Optional short description. If left blank, the title is vertically centered with the icon.
+           */
+          subtitle?: string | null;
+          /**
+           * Optional date shown on the row
+           */
+          date?: string | null;
+          /**
+           * Upload or select a PDF / Word document
+           */
+          file: number | Document;
+          /**
+           * Select a Lucide icon
+           */
+          icon?: string | null;
+          id?: string | null;
+        }[];
+        showIcon?: boolean | null;
+        showViewButton?: boolean | null;
+        showDownloadButton?: boolean | null;
+        /**
+         * Label for the view/preview button
+         */
+        viewLabel?: string | null;
+        /**
+         * Label for the download button
+         */
+        downloadLabel?: string | null;
+        /**
+         * Pick a color or enter hex value
+         */
+        accentColor?: string | null;
+        /**
+         * Pick a color or enter hex value
+         */
+        cardBgColor?: string | null;
+        /**
+         * Pick a color or enter hex value
+         */
+        backgroundColor?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'documentList';
+      }
   )[];
   updatedAt: string;
   createdAt: string;
@@ -2269,6 +2358,10 @@ export interface PayloadLockedDocument {
         value: number | Media;
       } | null)
     | ({
+        relationTo: 'documents';
+        value: number | Document;
+      } | null)
+    | ({
         relationTo: 'pages';
         value: number | Page;
       } | null)
@@ -2365,6 +2458,24 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents_select".
+ */
+export interface DocumentsSelect<T extends boolean = true> {
+  title?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -3247,6 +3358,33 @@ export interface PagesSelect<T extends boolean = true> {
                   };
               activeTabColor?: T;
               dashboardHeight?: T;
+              id?: T;
+              blockName?: T;
+            };
+        documentList?:
+          | T
+          | {
+              sectionHeading?: T;
+              sectionDescription?: T;
+              headingAlignment?: T;
+              documents?:
+                | T
+                | {
+                    title?: T;
+                    subtitle?: T;
+                    date?: T;
+                    file?: T;
+                    icon?: T;
+                    id?: T;
+                  };
+              showIcon?: T;
+              showViewButton?: T;
+              showDownloadButton?: T;
+              viewLabel?: T;
+              downloadLabel?: T;
+              accentColor?: T;
+              cardBgColor?: T;
+              backgroundColor?: T;
               id?: T;
               blockName?: T;
             };
