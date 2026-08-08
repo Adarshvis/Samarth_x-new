@@ -154,6 +154,8 @@ export default function Header({ data }: HeaderProps) {
                     {!hasChildren ? (
                       <a
                         href={item.url || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         onMouseEnter={() => setHoveredNav(item.id || item.label)}
                         onMouseLeave={() => setHoveredNav(null)}
                         className="inline-flex items-center text-base font-medium pb-1 border-b-[3px]"
@@ -209,6 +211,8 @@ export default function Header({ data }: HeaderProps) {
                                 <a
                                   key={child.id || childLabel}
                                   href={childUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
                                   className={`block px-4 py-2 text-base transition-colors ${
                                     childActive
                                       ? 'text-[#1A73E9] font-semibold'
@@ -230,6 +234,8 @@ export default function Header({ data }: HeaderProps) {
               {data.ctaButton?.enabled && data.ctaButton.label && (
                 <a
                   href={data.ctaButton.url || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="bg-blue-600 text-white text-sm font-medium px-4 py-1.5 rounded hover:bg-blue-700 transition-colors"
                 >
                   {data.ctaButton.label}
@@ -310,6 +316,8 @@ export default function Header({ data }: HeaderProps) {
                   {!hasChildren ? (
                     <a
                       href={item.url || '#'}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className={`block py-2.5 text-base transition-colors ${
                         active
                           ? 'text-[#1A73E9] font-semibold'
@@ -331,6 +339,8 @@ export default function Header({ data }: HeaderProps) {
                           <a
                             key={child.id || childLabel}
                             href={childUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className={`block py-2 pl-4 text-base transition-colors ${
                               isActive(childUrl)
                                 ? 'text-[#1A73E9] font-semibold'
@@ -349,6 +359,8 @@ export default function Header({ data }: HeaderProps) {
               {data.ctaButton?.enabled && data.ctaButton.label && (
                 <a
                   href={data.ctaButton.url || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="block mt-3 text-center bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg"
                 >
                   {data.ctaButton.label}
