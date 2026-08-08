@@ -42,11 +42,13 @@ export default function CallToActionBlock({ sectionHeading, sectionDescription, 
         {buttons && buttons.length > 0 && (
           <div className="flex flex-wrap justify-center gap-4">
             {buttons.map((btn) => (
-              <a
+              <a 
                 key={btn.id || btn.url}
                 href={btn.url}
                 className={`px-6 py-3 rounded-lg font-medium transition-colors ${buttonVariants[btn.variant || 'primary']}`}
-              >
+          target="_blank"
+          rel="noopener noreferrer"
+        >
                 {btn.label}
               </a>
             ))}

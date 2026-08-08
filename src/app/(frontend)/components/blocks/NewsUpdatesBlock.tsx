@@ -153,7 +153,10 @@ function NewsCard({ article }: { article: ArticleData }) {
   )
 
   if (article.url) {
-    return <a href={article.url} className="block">{content}</a>
+    return <a href={article.url} className="block"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{content}</a>
   }
   return content
 }
@@ -194,7 +197,10 @@ function SpotlightLayout({ articles }: { articles: ArticleData[] }) {
               )}
               <h3 className="text-white text-xl md:text-2xl font-bold leading-tight mb-2">
                 {featured.url ? (
-                  <a href={featured.url} className="hover:underline">{featured.title}</a>
+                  <a href={featured.url} className="hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{featured.title}</a>
                 ) : (
                   featured.title
                 )}
@@ -239,7 +245,10 @@ function SpotlightLayout({ articles }: { articles: ArticleData[] }) {
                     )}
                     <h4 className="font-semibold text-gray-900 text-sm leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">
                       {article.url ? (
-                        <a href={article.url}>{article.title}</a>
+                        <a href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >{article.title}</a>
                       ) : (
                         article.title
                       )}
@@ -364,10 +373,12 @@ export default function NewsUpdatesBlock(props: NewsUpdatesBlockProps) {
 
         {bottomLink?.enabled && bottomLink.label && bottomLink.url && (
           <div className="mt-10 text-center">
-            <a
+            <a 
               href={bottomLink.url}
               className="inline-flex items-center gap-2 text-blue-600 font-medium hover:text-blue-700 transition-colors"
-            >
+          target="_blank"
+          rel="noopener noreferrer"
+        >
               {bottomLink.label}
               <ArrowRight size={18} />
             </a>

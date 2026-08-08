@@ -66,10 +66,12 @@ function SupportCard({ card, cardBg }: { card: SupportCardData; cardBg: string }
         <p className="text-gray-500 text-sm leading-relaxed mb-4">{card.description}</p>
       )}
       {card.buttonLabel && card.buttonUrl && (
-        <a
+        <a 
           href={card.buttonUrl}
           className="inline-flex items-center gap-1.5 text-sm font-medium transition-colors hover:opacity-80"
           style={{ color: iconColor }}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           {card.buttonLabel}
           <ArrowRight size={14} />

@@ -162,10 +162,12 @@ export default function CareerPostingBlock({
       {/* Apply button */}
       {hasApplyButton && (
         <div className="career-posting__apply">
-          <a
+          <a 
             href={applyButtonLink || '/applicant/login'}
             className="career-posting__apply-btn"
-          >
+          target="_blank"
+          rel="noopener noreferrer"
+        >
             {applyButtonText}
           </a>
         </div>

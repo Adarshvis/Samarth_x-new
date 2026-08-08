@@ -188,13 +188,15 @@ export default function DocumentListBlock(props: DocumentListBlockProps) {
                   )}
 
                   {showDownloadButton !== false && file?.url && (
-                    <a
+                    <a 
                       href={file.url}
                       download={file.filename || undefined}
                       className="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium no-underline transition-colors hover:brightness-95"
                       style={{ backgroundColor: hexToRgba(accent, 0.14), color: accent }}
                       aria-label={`${downloadLabel || 'Download'}: ${doc.title}`}
-                    >
+          target="_blank"
+          rel="noopener noreferrer"
+        >
                       <Download size={16} />
                       {downloadLabel || 'Download'}
                     </a>
@@ -222,12 +224,14 @@ export default function DocumentListBlock(props: DocumentListBlockProps) {
             <div className="flex items-center justify-between gap-4 px-5 py-3 border-b border-gray-200">
               <p className="font-semibold text-slate-900 truncate">{preview.title}</p>
               <div className="flex items-center gap-2 shrink-0">
-                <a
+                <a 
                   href={preview.url}
                   download
                   className="inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium no-underline"
                   style={{ backgroundColor: hexToRgba(accent, 0.12), color: accent }}
-                >
+          target="_blank"
+          rel="noopener noreferrer"
+        >
                   <Download size={15} />
                   {downloadLabel || 'Download'}
                 </a>

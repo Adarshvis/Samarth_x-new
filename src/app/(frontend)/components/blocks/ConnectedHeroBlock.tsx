@@ -260,12 +260,14 @@ export default function ConnectedHeroBlock(props: ConnectedHeroBlockProps) {
                 {buttons.map((btn) => {
                   const isPrimary = !btn.variant || btn.variant === 'primary'
                   return (
-                    <a
+                    <a 
                       key={btn.id || btn.url}
                       href={btn.url}
                       className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 hover:-translate-y-0.5"
                       style={buttonStyle(btn.variant)}
-                    >
+          target="_blank"
+          rel="noopener noreferrer"
+        >
                       {!isPrimary && btn.icon && <DynamicIcon name={btn.icon} size={16} />}
                       {!isPrimary && !btn.icon && btn.variant !== 'ghost' && (
                         <DynamicIcon name="Play" size={16} color={accent} />

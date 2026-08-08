@@ -118,7 +118,10 @@ function OverlayCard({
   )
 
   if (card.url) {
-    return <a href={card.url} className="block">{content}</a>
+    return <a href={card.url} className="block"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{content}</a>
   }
   return content
 }
@@ -196,7 +199,10 @@ function CleanCard({
   )
 
   if (card.url) {
-    return <a href={card.url} className="block">{content}</a>
+    return <a href={card.url} className="block"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{content}</a>
   }
   return content
 }
@@ -254,11 +260,13 @@ export default function ShowcaseCardsBlock(props: ShowcaseCardsBlockProps) {
 
         {bottomLink?.enabled && bottomLink.label && bottomLink.url && (
           <div className="mt-10 text-center">
-            <a
+            <a 
               href={bottomLink.url}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 border-2 hover:shadow-lg"
               style={{ borderColor: accent, color: accent }}
-            >
+          target="_blank"
+          rel="noopener noreferrer"
+        >
               {bottomLink.label}
               <ArrowRight size={18} />
             </a>

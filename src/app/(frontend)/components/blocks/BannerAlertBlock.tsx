@@ -34,7 +34,10 @@ export default function BannerAlertBlock({ sectionHeading, sectionDescription, h
         <Icon className={`${iconColor} shrink-0`} size={20} />
         <span className="text-white flex-1">{message}</span>
         {link?.label && link?.url && (
-          <a href={link.url} className="text-blue-400 hover:underline shrink-0 font-medium">{link.label}</a>
+          <a href={link.url} className="text-blue-400 hover:underline shrink-0 font-medium"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{link.label}</a>
         )}
         {dismissible && (
           <button onClick={() => setVisible(false)} className="text-gray-400 hover:text-white shrink-0">

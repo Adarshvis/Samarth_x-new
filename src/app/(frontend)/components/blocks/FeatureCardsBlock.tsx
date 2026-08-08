@@ -105,10 +105,12 @@ export default function FeatureCardsBlock({
                     </div>
                   ) : null}
                   {card.link && (
-                    <a
+                    <a 
                       href={card.link}
                       className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-700 no-underline hover:gap-2.5 transition-all"
-                    >
+          target="_blank"
+          rel="noopener noreferrer"
+        >
                       {card.linkLabel || 'Discover more'}
                       {ArrowRight ? <ArrowRight size={15} /> : '→'}
                     </a>
@@ -169,7 +171,10 @@ export default function FeatureCardsBlock({
             )
 
             if (card.link) {
-              return <a key={key} href={card.link} className="no-underline">{content}</a>
+              return <a key={key} href={card.link} className="no-underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{content}</a>
             }
             return content
           })}

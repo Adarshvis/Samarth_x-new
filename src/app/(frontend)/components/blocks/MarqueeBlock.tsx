@@ -59,7 +59,10 @@ export default function MarqueeBlock({
               </span>
             )}
             {item.url ? (
-              <a href={item.url} className="hover:underline underline-offset-2">
+              <a href={item.url} className="hover:underline underline-offset-2"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
                 {item.text}
               </a>
             ) : (

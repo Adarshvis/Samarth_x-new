@@ -549,11 +549,13 @@ function ImpactSpotlightLayout({
                 </p>
               )}
               {spotlight?.buttonLabel && (
-                <a
+                <a 
                   href={spotlight.buttonUrl || '#'}
                   className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold transition-transform hover:-translate-y-0.5"
                   style={{ color: '#0F172A' }}
-                >
+          target="_blank"
+          rel="noopener noreferrer"
+        >
                   {spotlight.buttonLabel}
                   <DynamicIcon name="ArrowRight" size={16} />
                 </a>

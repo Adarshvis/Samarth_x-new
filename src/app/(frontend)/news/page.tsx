@@ -59,6 +59,8 @@ export default async function NewsListingPage() {
               <Link
                 key={item.id}
                 href={`/news/${item.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group block rounded-xl overflow-hidden border border-gray-200 bg-white hover:shadow-md transition-shadow"
               >
                 {imageUrl ? (

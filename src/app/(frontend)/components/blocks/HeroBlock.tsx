@@ -247,11 +247,13 @@ function SlideContent({
       {slide.buttons && slide.buttons.length > 0 && (
         <div className="flex flex-wrap gap-4 mt-2 animate-fade-in-up animation-delay-400">
           {slide.buttons.map((btn) => (
-            <a
+            <a 
               key={btn.id || btn.url}
               href={btn.url}
               className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 ${btnVariants[btn.variant || 'primary']}`}
-            >
+          target="_blank"
+          rel="noopener noreferrer"
+        >
               {btn.label}
               {btn.icon && <DynamicIcon name={btn.icon} size={18} />}
             </a>
